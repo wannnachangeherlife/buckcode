@@ -8,6 +8,10 @@ on:
 jobs:
   run-automation:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: periodic-learning-tasks-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,6 +20,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -38,4 +43,17 @@ jobs:
           EMAIL_SMTP_SERVER: ${{ secrets.EMAIL_SMTP_SERVER }}
           EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT }}
         run: |
-          python automation_scripts/learning_system_core.py
+          python automation_scripts/learning_system_core.py || {
+            echo "learning_system_core failed";
+            exit 1;
+          }
+
+      - name: Upload logs artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-system-logs
+          path: |
+            learning_system.log
+            analytics_data.json
+          if-no-files-found: warn
