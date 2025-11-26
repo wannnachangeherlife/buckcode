@@ -1,0 +1,2 @@
+Name,Category,Start Date,End Date,Weekly Hours,Priority,Status,Resources,Notes
+"PyTorch深度学习","AI算法",2026-01-10,2026-04-10,6,P1-高,未开始,"https://pytorch.org;https://pytorch.org/tutorials","目标：掌握基本CNN/训练/推理流程"

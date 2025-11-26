@@ -1,0 +1,2 @@
+Date,Duration Hours,Course,Learning Content,Efficiency Score,Learning Method,Notes Count,Questions,Completed Tasks,Reflection,Evidence
+2025-12-02,2,PyTorch深度学习,"安装并测试torch.cuda.is_available()",8,编码,3,"GPU不可见时如何排查",1,"需确认CUDA驱动版本","https://github.com/your/repo/commit/sha"
