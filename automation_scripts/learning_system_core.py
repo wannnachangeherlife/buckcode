@@ -548,6 +548,7 @@ def main():
     logger.info("=" * 50)
     logger.info("学习管理系统启动")
     logger.info("=" * 50)
+    logger.info(f"DRY_RUN 模式: {'开启' if DRY_RUN else '关闭'}")
     
     # 执行同步
     SyncEngine.sync_notion_to_github()
@@ -557,8 +558,7 @@ def main():
     NotificationEngine.send_email_summary()
     NotificationEngine.check_deadline_reminders()
     
-    # 生成统计
-    AnalyticsEngine.generate_weekly_report()
+    # 生成统计（避免重复生成日志，仅导出一次）
     AnalyticsEngine.export_analytics_json()
     
     logger.info("=" * 50)
