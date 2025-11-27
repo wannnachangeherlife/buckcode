@@ -1,0 +1,18 @@
+{
+  "knowledge_db_id": "REPLACE_KNOWLEDGE_DB_ID",
+  "review_db_id": "REPLACE_REVIEW_DB_ID",
+  "tasks_db_id": "REPLACE_TASKS_DB_ID",
+  "resources_db_id": "REPLACE_RESOURCES_DB_ID",
+  "projects_db_id": "REPLACE_PROJECTS_DB_ID",
+  "base_date_format": "%Y年%m月%d日",
+  "default_ease": 2.5,
+  "default_initial_interval_days": 1,
+  "retry": {
+    "max_attempts": 3,
+    "base_sleep_seconds": 2
+  },
+  "batch_size": 6,
+  "log_file": "automation/logs/migration.log",
+  "cache_file": "automation/utils/notion_relation_cache.json",
+  "id_map_file": "automation/utils/notion_id_map.json"
+}

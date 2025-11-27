@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>复习统计仪表板</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f9fafb;--fg:#222;--card-bg:#fff;--card-border:#e5e7eb;--chip-bg:#e0e7ff;--chip-fg:#1e3a8a;--code-bg:#1e293b;--code-fg:#f8fafc;
+    }
+    .dark{
+      --bg:#0f172a;--fg:#f1f5f9;--card-bg:#1e293b;--card-border:#334155;--chip-bg:#334155;--chip-fg:#e0e7ff;--code-bg:#0f172a;--code-fg:#e2e8f0;
+    }
+    body{font-family:Segoe UI,Arial,sans-serif;max-width:960px;margin:24px auto;padding:0 16px;line-height:1.5;color:var(--fg);background:var(--bg);transition:.25s background,.25s color}
+    h1,h2{margin-top:1.2em}
+    header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .chips span{display:inline-block;background:var(--chip-bg);color:var(--chip-fg);padding:4px 10px;border-radius:14px;font-size:12px;margin:2px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+    .card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+    .small{font-size:12px;color:var(--fg);opacity:.7}
+    pre{background:var(--code-bg);color:var(--code-fg);padding:12px;border-radius:6px;overflow:auto}
+    footer{margin-top:40px;font-size:12px;color:var(--fg);opacity:.7}
+    .bar-row{display:flex;align-items:center;margin:4px 0}
+    .bar{height:14px;background:#4C78A8;border-radius:4px}
+    .ease-diff{font-weight:600}
+    .toggle-btn{cursor:pointer;background:var(--chip-bg);color:var(--chip-fg);border:none;padding:6px 14px;border-radius:18px;font-size:12px;display:flex;align-items:center;gap:6px}
+    .chart-container{overflow-x:auto}
+    .tooltip{position:fixed;z-index:20;pointer-events:none;background:var(--card-bg);color:var(--fg);border:1px solid var(--card-border);padding:6px 10px;border-radius:6px;font-size:12px;line-height:1.3;box-shadow:0 4px 12px rgba(0,0,0,.15);opacity:0;transform:translateY(-4px);transition:opacity .12s ease,transform .12s ease;max-width:240px}
+    .tooltip.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>复习统计仪表板</h1>
+  <button id="theme-toggle" class="toggle-btn" title="切换主题">🌗 切换主题</button>
+  <div class="chips" id="meta-chips"></div>
+</header>
+<p class="small">数据来源：Notion Review DB 定时任务。可通过 GitHub Actions 每日自动更新。</p>
+<section class="grid">
+  <div class="card">
+    <h2>Stage 分布</h2>
+    <div id="stage-bars"></div>
+  </div>
+  <div class="card">
+    <h2>Ease 对比</h2>
+    <svg id="ease-svg" width="360" height="180"></svg>
+    <p class="ease-diff" id="ease-diff"></p>
+  </div>
+</section>
+<div class="card" style="margin-top:24px">
+  <h2>原始 JSON</h2>
+  <pre id="json-raw">加载中...</pre>
+</div>
+<div class="card" style="margin-top:24px">
+  <h2>SVG 图表</h2>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <img src="stage_distribution.svg" alt="Stage 分布图" style="background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:8px" />
+    <img src="ease_compare.svg" alt="Ease 对比图" style="background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:8px" />
+  </div>
+</div>
+<div class="card" style="margin-top:24px">
+  <h2>历史趋势 (Ease & Processed)</h2>
+  <div class="chart-container">
+    <svg id="history-chart" width="900" height="260"></svg>
+  </div>
+</div>
+<div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+<footer>
+  <span id="updated"></span> · 构建脚本：review_scheduler.py · Powered by Notion API
+</footer>
+<script>
+(async function(){
+  async function loadStats(){
+    try{
+      const r = await fetch('review_stats.json?_=' + Date.now());
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return await r.json();
+    }catch(e){console.error(e);return null;}
+  }
+  function fmt(num){return Number(num).toFixed(2);}
+  const stats = await loadStats();
+  const rawEl = document.getElementById('json-raw');
+  const stageBars = document.getElementById('stage-bars');
+  const easeSvg = document.getElementById('ease-svg');
+  const easeDiff = document.getElementById('ease-diff');
+  const updated = document.getElementById('updated');
+  const chips = document.getElementById('meta-chips');
+  const themeToggle = document.getElementById('theme-toggle');
+  const historySvg = document.getElementById('history-chart');
+  if(!stats){rawEl.textContent='加载失败';return;}
+  rawEl.textContent = JSON.stringify(stats,null,2);
+  chips.innerHTML = `<span>处理: ${stats.processed}</span><span>更新: ${stats.updated}</span><span>到期: ${stats.due_count}</span>`;
+  updated.textContent = '最近更新: ' + new Date().toLocaleString();
+  // Stage bars
+  const dist = stats.stage_distribution || {};
+  const max = Math.max(1,...Object.values(dist));
+  Object.keys(dist).sort((a,b)=>Number(a)-Number(b)).forEach(s=>{
+    const cnt = dist[s];
+    const w = Math.max(4, Math.round(240 * (cnt/max)));
+    const row = document.createElement('div'); row.className='bar-row';
+    const label = document.createElement('span'); label.style.width='50px'; label.textContent='S'+s;
+    const bar = document.createElement('div'); bar.className='bar'; bar.style.width=w+'px';
+    const val = document.createElement('span'); val.style.marginLeft='8px'; val.textContent=cnt;
+    row.append(label, bar, val); stageBars.append(row);
+  });
+  // Ease compare inline svg
+  const before = stats.avg_ease_before||0; const after = stats.avg_ease_after||0;
+  const scale = 100/Math.max(before,after,1);
+  const bH = before*scale; const aH = after*scale;
+  easeSvg.innerHTML = `<rect x='80' y='120' width='60' height='${bH}' fill='#F58518' transform='scale(1,-1) translate(0,-180)' />
+  <text x='110' y='170' text-anchor='middle'>前 ${fmt(before)}</text>
+  <rect x='220' y='120' width='60' height='${aH}' fill='#54A24B' transform='scale(1,-1) translate(0,-180)' />
+  <text x='250' y='170' text-anchor='middle'>后 ${fmt(after)}</text>`;
+  easeDiff.textContent = `Ease变化差值: ${(after-before).toFixed(2)}`;
+
+  // Theme toggle
+  const stored = localStorage.getItem('analytics-theme');
+  if(stored === 'dark'){document.body.classList.add('dark');}
+  themeToggle.onclick = () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('analytics-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  };
+
+  // Load history
+  let history=[];
+  try{
+    const r = await fetch('history.json?_=' + Date.now()); if(r.ok){ history = await r.json(); }
+  }catch(e){ console.warn('no history'); }
+  if(Array.isArray(history) && history.length){
+    renderHistory(historySvg, history);
+  } else {
+    historySvg.innerHTML = '<text x="20" y="40" fill="#666">无历史数据</text>';
+  }
+})();
+
+function renderHistory(svgEl, data){
+  // Sort by date
+  data = data.slice().sort((a,b)=> a.date.localeCompare(b.date));
+  const dates = data.map(d=>d.date);
+  const easeVals = data.map(d=> Number(d.avg_ease_after||0));
+  const procVals = data.map(d=> Number(d.processed||0));
+  const w = svgEl.getAttribute('width')*1; const h = svgEl.getAttribute('height')*1;
+  const padL=50,padR=20,padT=20,padB=40;
+  const innerW = w - padL - padR; const innerH = h - padT - padB;
+  const maxEase = Math.max(...easeVals,1); const maxProc = Math.max(...procVals,1);
+  // Scales
+  const xStep = innerW / Math.max(dates.length-1,1);
+  function x(i){ return padL + i * xStep; }
+  function yEase(v){ return padT + innerH - (v/maxEase)*innerH; }
+  function yProc(v){ return padT + innerH - (v/maxProc)*innerH; }
+  let easePath=''; let procPath='';
+  easeVals.forEach((v,i)=>{ easePath += (i===0?'M':'L') + x(i)+','+yEase(v)+' '; });
+  procVals.forEach((v,i)=>{ procPath += (i===0?'M':'L') + x(i)+','+yProc(v)+' '; });
+  // Grid lines
+  let grid='';
+  for(let g=0; g<=5; g++){
+    const y = padT + innerH - (g/5)*innerH;
+    grid += `<line x1='${padL}' y1='${y}' x2='${w-padR}' y2='${y}' stroke='#ccc' stroke-width='1' stroke-dasharray='2,3' />`;
+  }
+  // Date ticks (max 12)
+  const tickCount = Math.min(dates.length,12);
+  const stepIdx = Math.max(1, Math.floor(dates.length / tickCount));
+  let ticks='';
+  dates.forEach((d,i)=>{ if(i%stepIdx===0){ ticks += `<text x='${x(i)}' y='${h-8}' text-anchor='middle' fill='currentColor' font-size='11'>${d.slice(5)}</text>`; } });
+  svgEl.innerHTML = `
+    <style>.ease-line{fill:none;stroke:#54A24B;stroke-width:2} .proc-line{fill:none;stroke:#F58518;stroke-width:2} .dot{stroke:#fff;stroke-width:1;cursor:pointer}</style>
+    <rect x='0' y='0' width='${w}' height='${h}' fill='transparent' />
+    ${grid}
+    <path d='${easePath}' class='ease-line'></path>
+    <path d='${procPath}' class='proc-line'></path>
+    ${easeVals.map((v,i)=>`<circle cx='${x(i)}' cy='${yEase(v)}' r='4' fill='#54A24B' class='dot ease-dot' data-type='EaseAfter' data-date='${dates[i]}' data-value='${v.toFixed(2)}' aria-label='${dates[i]} EaseAfter ${v.toFixed(2)}'></circle>`).join('')}
+    ${procVals.map((v,i)=>`<circle cx='${x(i)}' cy='${yProc(v)}' r='4' fill='#F58518' class='dot proc-dot' data-type='Processed' data-date='${dates[i]}' data-value='${procVals[i]}' aria-label='${dates[i]} Processed ${procVals[i]}'></circle>`).join('')}
+    <text x='${padL}' y='15' fill='currentColor' font-size='12'>Ease After</text>
+    <text x='${padL+120}' y='15' fill='currentColor' font-size='12'>Processed</text>
+  `;
+  initHistoryTooltip(svgEl);
+}
+
+function initHistoryTooltip(svgEl){
+  const tip = document.getElementById('tooltip');
+  const circles = svgEl.querySelectorAll('circle.dot');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  circles.forEach(c=>{
+    c.addEventListener('mouseenter', e=>{
+      const t = e.target;
+      tip.innerHTML = `<strong>${t.getAttribute('data-date')}</strong><br/>${t.getAttribute('data-type')}: ${t.getAttribute('data-value')}`;
+      tip.classList.add('visible');
+      tip.setAttribute('aria-hidden','false');
+    });
+    c.addEventListener('mousemove', e=>{
+      const x = e.clientX + 12;
+      const y = e.clientY + 12;
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    });
+    c.addEventListener('mouseleave', ()=>{
+      tip.classList.remove('visible');
+      tip.setAttribute('aria-hidden','true');
+    });
+    // Keyboard focus support
+    c.setAttribute('tabindex','0');
+    c.addEventListener('focus', e=>{
+      const t = e.target;
+      tip.innerHTML = `<strong>${t.getAttribute('data-date')}</strong><br/>${t.getAttribute('data-type')}: ${t.getAttribute('data-value')}`;
+      tip.classList.add('visible');
+      tip.setAttribute('aria-hidden','false');
+      // place near circle (approximate)
+      const rect = svgEl.getBoundingClientRect();
+      const cx = parseFloat(t.getAttribute('cx')) + rect.left;
+      const cy = parseFloat(t.getAttribute('cy')) + rect.top;
+      tip.style.left = (cx + 12) + 'px';
+      tip.style.top = (cy + 12) + 'px';
+    });
+    c.addEventListener('blur', ()=>{
+      tip.classList.remove('visible');
+      tip.setAttribute('aria-hidden','true');
+    });
+    // Mobile long-press support
+    let pressTimer=null; let startX=0; let startY=0; let longShown=false;
+    c.addEventListener('touchstart', e=>{
+      if(e.touches.length!==1) return; // ignore multi-touch
+      const touch = e.touches[0];
+      startX = touch.clientX; startY = touch.clientY; longShown=false;
+      pressTimer = setTimeout(()=>{
+        const t = e.target;
+        tip.innerHTML = `<strong>${t.getAttribute('data-date')}</strong><br/>${t.getAttribute('data-type')}: ${t.getAttribute('data-value')}`;
+        tip.classList.add('visible'); tip.setAttribute('aria-hidden','false');
+        tip.style.left = (startX + 12) + 'px';
+        tip.style.top = (startY + 12) + 'px';
+        longShown=true;
+      },420); // 420ms threshold
+    }, {passive:true});
+    c.addEventListener('touchmove', e=>{
+      if(!pressTimer) return;
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - startX);
+      const dy = Math.abs(touch.clientY - startY);
+      if(dx>20 || dy>20){ clearTimeout(pressTimer); pressTimer=null; }
+    }, {passive:true});
+    c.addEventListener('touchend', ()=>{
+      if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; }
+      // keep tooltip visible if shown; user can tap outside to dismiss
+    });
+    c.addEventListener('touchcancel', ()=>{ if(pressTimer){ clearTimeout(pressTimer); pressTimer=null; } });
+  });
+  if(prefersReducedMotion){ tip.style.transition='none'; }
+  // Tap outside to hide for mobile
+  document.addEventListener('touchstart', e=>{
+    if(!tip.classList.contains('visible')) return;
+    if(e.target.closest('circle.dot')) return;
+    tip.classList.remove('visible'); tip.setAttribute('aria-hidden','true');
+  }, {passive:true});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "processed": 10,
+  "updated": 10,
+  "due_count": 10,
+  "skipped_not_due": 0,
+  "avg_ease_before": 2.0,
+  "avg_ease_after": 2.5,
+  "stage_distribution": {
+    "1": 10
+  }
+}

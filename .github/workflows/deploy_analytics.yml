@@ -1,0 +1,42 @@
+name: Deploy Analytics Dashboard
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/analytics/**'
+      - 'automation/workflows/review_scheduler.py'
+      - '.github/workflows/deploy_analytics.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate (optional manual run)
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_REVIEW_DB_ID: ${{ secrets.NOTION_REVIEW_DB_ID }}
+        run: |
+          if [ -f automation/utils/notion_migration_config.json ]; then \
+            python automation/workflows/review_scheduler.py --config automation/utils/notion_migration_config.json --only-due --stats --generate-dashboard; \
+          fi
+      - name: Prepare site
+        run: |
+          mkdir -p site
+          cp -r docs/analytics/* site/
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: site
+          commit_message: "chore: update analytics dashboard"

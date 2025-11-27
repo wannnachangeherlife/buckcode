@@ -1,0 +1,50 @@
+name: Daily Review Scheduling
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # UTC 01:00 ≈ 09:00 China
+  workflow_dispatch:
+
+jobs:
+  run-review-scheduler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          if [ -f automation/requirements.txt ]; then pip install -r automation/requirements.txt; fi
+      - name: Run scheduler (only-due stats dashboard)
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_REVIEW_DB_ID: ${{ secrets.NOTION_REVIEW_DB_ID }}
+          TZ: Asia/Shanghai
+        run: |
+          python automation/workflows/review_scheduler.py \
+            --config automation/utils/notion_migration_config.json \
+            --only-due --quality 4 --stats --generate-dashboard --backup
+      - name: Prepare site folder
+        run: |
+          mkdir -p site
+          cp -r docs/analytics/* site/
+      - name: Deploy dashboard to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: site
+          commit_message: "chore: daily analytics update"
+      - name: Upload analytics artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-analytics
+          path: |
+            automation/analytics/review_stats.json
+            automation/analytics/review_backup_*.json
+            docs/analytics/REVIEW_DASHBOARD.md

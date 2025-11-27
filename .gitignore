@@ -1,8 +1,23 @@
+# Environment
 .env
-*.log
+venv/
+
+# Python
 *.pyc
 __pycache__/
-automation_scripts/__pycache__/
-automation_scripts/obsidian_notion_map.json
-notion_databases.json
-analytics_data.json
+automation/**/__pycache__/
+
+# Logs
+logs/*.log
+
+# Config & Data
+automation/utils/analytics_data.json
+automation/utils/notion_databases.json
+automation/sync/obsidian_notion_map.json
+
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Temporary files
+*.tmp

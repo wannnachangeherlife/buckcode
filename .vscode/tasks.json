@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Doctor: 一键体检与验证",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"automation/workflows/doctor.py",
+				"--fix",
+				"--init",
+				"--seed",
+				"data/review_seed.csv",
+				"--tags",
+				"三维,文化遗产",
+				"--dry-run",
+				"--max",
+				"5"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

@@ -1,0 +1,44 @@
+name: CI Doctor
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+    paths:
+      - 'automation/**'
+      - '.github/workflows/ci_doctor.yml'
+      - 'docs/analytics/**'
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+      NOTION_REVIEW_DB_ID: ${{ secrets.NOTION_REVIEW_DB_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r automation/requirements.txt
+
+      - name: Run Doctor (dry-run)
+        run: |
+          python automation/workflows/doctor.py --fix --dry-run --max 3 --report docs/analytics/doctor_report.html
+
+      - name: Upload Doctor Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: doctor-report
+          path: docs/analytics/doctor_report.html

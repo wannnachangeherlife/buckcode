@@ -1,0 +1,12 @@
+[
+  {
+    "date": "2025-11-27",
+    "processed": 10,
+    "updated": 10,
+    "avg_ease_before": 2.0,
+    "avg_ease_after": 2.5,
+    "stage_distribution": {
+      "1": 10
+    }
+  }
+]

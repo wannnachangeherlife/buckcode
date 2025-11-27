@@ -1,0 +1,13 @@
+# Gitleaks configuration
+# Strict scan, but allow some known-safe paths (examples, generated reports)
+
+[allowlist]
+  description = "Allow safe/example/generated files"
+  paths = [
+    "^docs/analytics/",        # generated dashboard artifacts
+    "^automation/analytics/",  # generated backups/stats
+    "^.*\.env.example$",      # example env files
+    "^README\.md$",
+  ]
+
+# Using default Gitleaks ruleset which covers common key/token patterns.

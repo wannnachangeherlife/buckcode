@@ -1,2 +1,0 @@
-Title,Type,Due Date,Estimated Hours,Actual Hours,Priority,Status,Related Course,Progress,Need AI Feedback,Review Schedule,Note Link,Tags,GitHub Issue
-"建立PyTorch环境并验证GPU","作业",2025-12-07,2,0,P1-高,未开始,PyTorch深度学习,0,FALSE,"D+1","obsidian://open?vault=Heritage&file=env-setup","#环境",""

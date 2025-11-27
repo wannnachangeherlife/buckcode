@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "level/heritage_learning_plan.md",
+                "file": "notes/vault/环境配置：Python 3.10 + Node.js + Git.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "heritage_learning_plan"
+              "title": "环境配置：Python 3.10 + Node.js + Git"
             }
           }
         ]
@@ -41,10 +41,10 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
-              "title": "Files"
+              "title": "文件列表"
             }
           },
           {
@@ -174,42 +174,52 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
-      "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
-      "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:创建新数据库": false
     }
   },
-  "active": "73678fd2a892e400",
+  "active": "d4e62012068f82c3",
   "lastOpenFiles": [
-    "SECRETS_QUICK_COPY.md",
-    "GITHUB_ACTIONS_SETUP.md",
-    "venv/Lib/site-packages/openai/_extras/__pycache__/__init__.cpython-313.pyc",
-    "venv/Lib/site-packages/openai/_extras/__pycache__/_common.cpython-313.pyc",
-    "venv/Lib/site-packages/openai/_extras/__pycache__/sounddevice_proxy.cpython-313.pyc",
-    "venv/Lib/site-packages/openai/_extras/__pycache__/pandas_proxy.cpython-313.pyc",
-    "venv/Lib/site-packages/openai/_extras/__pycache__/numpy_proxy.cpython-313.pyc",
-    "venv/Lib/site-packages/openai/_extras/__pycache__",
-    "obsidian_templates/daily_note.md",
-    "obsidian_templates/feynman_card.md",
-    "obsidian_templates/review_card.md",
-    "obsidian_vault/Untitled.md",
-    "obsidian_vault/学习 Three.js 光照系统.md",
-    "automation_scripts/success_report.py",
-    "automation_scripts/system_diagnosis.py",
-    "automation_scripts/test_email.py",
-    "EMAIL_SETUP_GUIDE.md",
-    "obsidian_vault",
-    "OBSIDIAN_SYNC_GUIDE.md",
-    "AI_API_FREE_GUIDE.md",
-    "venv/Lib/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.md",
-    "venv/Lib/site-packages/httpcore-1.0.9.dist-info/licenses/LICENSE.md",
-    "venv/Lib/site-packages/idna-3.11.dist-info/licenses/LICENSE.md",
-    "venv/Lib/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md",
-    "figma_dashboard_spec.md",
-    "automation_scripts/zapier_apple_calendar_instructions.md"
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/C++数据结构入门 2b765c6c735f81f0a218d3a15aafc630.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/无标题 2b765c6c735f81eabf12fceea34d471b.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/JavaScript基础语法教程 2b765c6c735f81c7bd58ef1990e8e9a0.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/Python计算及编程基础教程 2b765c6c735f81479073e0b5d036f993.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/Java面向对象编程实践 2b765c6c735f81388425fc8c90016c91.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源/算法设计与分析基础 2b765c6c735f8134ba29e640a027e51a.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪/矩阵运算综合练习 2b765c6c735f81d3a222d809163a6d4b.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪/单片机程序设计实验 2b765c6c735f81408bc6d1ba89fde758.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪/无标题 2b765c6c735f813b8065d3541163ef70.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪/离散数学课堂展示 2b765c6c735f812281d4fee3a5610091.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记/中国近代史历史轨迹 2b765c6c735f81fe860acde704cbb675.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记/算法复杂度分析与时间效率 2b765c6c735f81ac99a2f60331e7e384.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记/程序设计结构 2b765c6c735f8191ba24d4f8b5c934ad.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记/无标题 2b765c6c735f818db664da31240ba89b.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/无标题 2b765c6c735f816bb42fe51670a2ec22.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办/准备英语演讲稿 2b765c6c735f81cab43ac98cbc47fe6b.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办/上机实验报告撰写 2b765c6c735f81b1a4a9f7ecd524f20e.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办/数学习题集完成 2b765c6c735f8198a1e8d4f72395efd3.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办/无标题 2b765c6c735f8164a088d9a4e4a48be3.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/思想道德与法治 2b765c6c735f81fb8d35d947ea96d9a7.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/中国近代史纲要 2b765c6c735f81ca9673dca6ba741da8.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/大学生心理健康 2b765c6c735f81bc9cdee59fac2dab6d.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/艺术鉴赏 2b765c6c735f81bb86e6eec417a7b176.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/程序设计基础 2b765c6c735f81b6a19cc80ded17430f.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/高等数学I 2b765c6c735f81a3bf9cf9ab41065883.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库/体育I 2b765c6c735f8181a24ee66b1d8f503e.md",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程数据库",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课程作业跟踪 2b765c6c735f81a5af4ad8c7a15806f9.csv",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源 2b765c6c735f814b9a3edb5fff777982.csv",
+    "notion_templates/extracted/大学生学习系统｜Student OS/课堂笔记 2b765c6c735f81deb8a9e23c65aa281a.csv",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习计划待办 2b765c6c735f8175b4f9ef28d9b87e2d.csv",
+    "notion_templates/extracted/大学生学习系统｜Student OS/学习资源 2b765c6c735f814b9a3edb5fff777982_all.csv"
   ]
 }
