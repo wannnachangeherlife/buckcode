@@ -1,0 +1,27 @@
+{
+  "name": "Notion任务日历提醒",
+  "actions": [
+    {
+      "type": "Find Calendar Events",
+      "criteria": {
+        "calendar": "Apple Calendar",
+        "date": "Today"
+      }
+    },
+    {
+      "type": "Repeat With Each",
+      "input": "Calendar Events",
+      "actions": [
+        {
+          "type": "Get Details of Calendar Event",
+          "detail": "Title"
+        },
+        {
+          "type": "Show Notification",
+          "title": "今日任务提醒",
+          "body": "任务：{{Title}}"
+        }
+      ]
+    }
+  ]
+}

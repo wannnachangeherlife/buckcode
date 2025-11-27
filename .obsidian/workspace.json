@@ -1,0 +1,215 @@
+{
+  "main": {
+    "id": "f884b3c613343ddf",
+    "type": "split",
+    "children": [
+      {
+        "id": "f9bf2ee89a663cac",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d4e62012068f82c3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "level/heritage_learning_plan.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "heritage_learning_plan"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3babe9844097b915",
+    "type": "split",
+    "children": [
+      {
+        "id": "c3a11d4be7e48ed0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "73678fd2a892e400",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "076602a25653f4fc",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "8ef1e0db9f7930fd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5c1fff75cb463cf4",
+    "type": "split",
+    "children": [
+      {
+        "id": "ddb30b4588cf1bfe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "138f13de1e362750",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "level/heritage_learning_plan.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "heritage_learning_plan 的反向链接列表"
+            }
+          },
+          {
+            "id": "a7f124e744a45ca5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "level/heritage_learning_plan.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "heritage_learning_plan 的出链列表"
+            }
+          },
+          {
+            "id": "b0aeec0a772b1e50",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "8200fe92a6c02ec3",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "7189575a35712f8b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "level/heritage_learning_plan.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "heritage_learning_plan 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "73678fd2a892e400",
+  "lastOpenFiles": [
+    "SECRETS_QUICK_COPY.md",
+    "GITHUB_ACTIONS_SETUP.md",
+    "venv/Lib/site-packages/openai/_extras/__pycache__/__init__.cpython-313.pyc",
+    "venv/Lib/site-packages/openai/_extras/__pycache__/_common.cpython-313.pyc",
+    "venv/Lib/site-packages/openai/_extras/__pycache__/sounddevice_proxy.cpython-313.pyc",
+    "venv/Lib/site-packages/openai/_extras/__pycache__/pandas_proxy.cpython-313.pyc",
+    "venv/Lib/site-packages/openai/_extras/__pycache__/numpy_proxy.cpython-313.pyc",
+    "venv/Lib/site-packages/openai/_extras/__pycache__",
+    "obsidian_templates/daily_note.md",
+    "obsidian_templates/feynman_card.md",
+    "obsidian_templates/review_card.md",
+    "obsidian_vault/Untitled.md",
+    "obsidian_vault/学习 Three.js 光照系统.md",
+    "automation_scripts/success_report.py",
+    "automation_scripts/system_diagnosis.py",
+    "automation_scripts/test_email.py",
+    "EMAIL_SETUP_GUIDE.md",
+    "obsidian_vault",
+    "OBSIDIAN_SYNC_GUIDE.md",
+    "AI_API_FREE_GUIDE.md",
+    "venv/Lib/site-packages/httpx-0.28.1.dist-info/licenses/LICENSE.md",
+    "venv/Lib/site-packages/httpcore-1.0.9.dist-info/licenses/LICENSE.md",
+    "venv/Lib/site-packages/idna-3.11.dist-info/licenses/LICENSE.md",
+    "venv/Lib/site-packages/pip-25.2.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md",
+    "figma_dashboard_spec.md",
+    "automation_scripts/zapier_apple_calendar_instructions.md"
+  ]
+}
