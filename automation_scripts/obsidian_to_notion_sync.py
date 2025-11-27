@@ -272,19 +272,20 @@ class ObsidianNotionSync:
         # 构建 Notion 属性
         title = frontmatter.get('title', file_path.stem)
         properties = {
-            "Title": {
+            "Name": {  # 使用 "Name" 而不是 "Title"
                 "title": [{"type": "text", "text": {"content": title}}]
             },
             "Source": {
                 "rich_text": [{"type": "text", "text": {"content": f"Obsidian: {file_path.name}"}}]
-            },
-            "Tags": {
-                "multi_select": [{"name": tag} for tag in tags if tag not in ['publish', 'to-notion', '复习']]
-            },
-            "Last Synced": {
-                "date": {"start": datetime.now().isoformat()}
             }
         }
+        
+        # 添加标签(过滤掉发布标记)
+        filtered_tags = [tag for tag in tags if tag not in ['publish', 'to-notion', '复习']]
+        if filtered_tags:
+            properties["Tags"] = {
+                "multi_select": [{"name": tag} for tag in filtered_tags]
+            }
         
         # 如果有关联笔记（双链），添加到属性
         if wikilinks:

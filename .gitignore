@@ -1,1 +1,8 @@
 .env
+*.log
+*.pyc
+__pycache__/
+automation_scripts/__pycache__/
+automation_scripts/obsidian_notion_map.json
+notion_databases.json
+analytics_data.json
